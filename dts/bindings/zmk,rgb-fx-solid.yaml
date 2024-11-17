@@ -1,0 +1,24 @@
+# Copyright (c) 2024 Kuba Birecki
+# SPDX-License-Identifier: MIT
+
+description: |
+  Displays a solid color across the entire area
+
+compatible: "zmk,rgb-fx-solid"
+
+include: rgb-fx-base.yaml
+
+properties:
+  duration:
+    type: int
+    default: 5
+    description: |
+      Effect duration in seconds.
+      This is the time it takes for the animation to complete a full cycle and return to the original color.
+      Ignored if only a single color is given.
+
+  colors:
+    type: array
+    required: true
+    description: |
+      The colors to cycle through during the animation in HSL format.
