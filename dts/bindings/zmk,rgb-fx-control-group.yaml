@@ -1,0 +1,22 @@
+# Copyright (c) 2024 Kuba Birecki
+# SPDX-License-Identifier: MIT
+
+description: |
+  Higher-order animation which allows for controlling effect drivers
+  placed underneath it by turning them on and off, cycling though them,
+  or changing the brightness.
+
+compatible: "zmk,rgb-fx-control-group"
+
+properties:
+  fx:
+    type: phandles
+    required: true
+    description: |
+      Effects controlled by this group.
+
+  brightness-steps:
+    type: int
+    default: 5
+    description: |
+      How many brightness steps should be supported.
