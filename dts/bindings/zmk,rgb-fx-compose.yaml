@@ -1,0 +1,15 @@
+# Copyright (c) 2024 Kuba Birecki
+# SPDX-License-Identifier: MIT
+
+description: |
+  Higher-order effect which allows for composing other effect drivers
+  and using different blending modes.
+
+compatible: "zmk,rgb-fx-compose"
+
+properties:
+  fx:
+    type: phandles
+    required: true
+    description: |
+      Effects to be combined.
