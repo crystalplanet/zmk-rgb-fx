@@ -1,0 +1,33 @@
+# Copyright (c) 2024 Kuba Birecki
+# SPDX-License-Identifier: MIT
+
+menuconfig ZMK_RGB_FX
+    bool "RGB Animations"
+    depends on LED_STRIP
+    help
+        Enable RGB animations.
+
+menuconfig ZMK_RGB_FX_FPS
+    int "RGB effect FPS"
+    range 1 60
+    default 30
+    help
+        Set the FPS at which the RGB animations should run, or to be more specific,
+        it's the maximum speed at which active animations can request new frames
+        to be rendered.
+
+menuconfig ZMK_RGB_FX_PIXEL_DISTANCE
+    bool "Generate a lookup table for distances between pixels"
+    default y
+    help
+        This setting will generate a lookup table containing the relative distances
+        between all pixels during system initialization, in order to improve performance
+        during runtime.
+
+        The size of the lookup table is: (n-1) + (n-2) + ... + 1 bytes
+        Where `n` is the number of individual color pixels. For example:
+        60  RGB LEDs -> 180 pixels -> 16 110 bytes
+        100 RGB LEDs -> 300 pixels -> 44 850 bytes
+
+        If you're not using animations that rely on relative positions,
+        you can disable this setting to save space.
