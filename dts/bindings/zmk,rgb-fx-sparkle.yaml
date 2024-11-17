@@ -1,0 +1,24 @@
+# Copyright (c) 2024 Kuba Birecki
+# SPDX-License-Identifier: MIT
+
+description: |
+  Displays a sparkle effect across the given pixels
+
+compatible: "zmk,rgb-fx-sparkle"
+
+include: rgb-fx-base.yaml
+
+properties:
+  duration:
+    type: int
+    default: 5
+    description: |
+      Effect duration in seconds. This is the maximum duration for the fade-in effect of a single 'spark'.
+      A complete fade-in and fade-out cycle is randomized and can take up to twice this amount.
+
+  colors:
+    type: array
+    required: true
+    description: |
+      Sparkle color in HSL format. If two colors are given, the effect will use HSL-interpolation
+      between the two values to determine a random color for each sparkle.
