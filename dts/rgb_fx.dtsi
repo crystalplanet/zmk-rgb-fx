@@ -1,0 +1,19 @@
+/*
+ * Copyright (c) 2024 Kuba Birecki
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+/ {
+    behaviors {
+        /omit-if-no-ref/ rgbfx: behavior_rgb_fx {
+            compatible = "zmk,behavior-rgb-fx";
+            #binding-cells = <1>;
+        };
+    };
+
+    /omit-if-no-ref/ pixel: rgb_fx_pixel {
+        compatible = "zmk,rgb-fx-pixel";
+        #pixel-cells = <2>;
+    };
+};

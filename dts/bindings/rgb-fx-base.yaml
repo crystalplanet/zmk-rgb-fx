@@ -1,0 +1,22 @@
+# Copyright (c) 2024 Kuba Birecki
+# SPDX-License-Identifier: MIT
+
+properties:
+  pixels:
+    type: array
+    required: true
+    description: |
+      Pixel positions to which the RGB effects should apply.
+
+  blending-mode:
+    type: string
+    enum:
+      - "normal"
+      - "multiply"
+      - "lighten"
+      - "darken"
+      - "screen"
+      - "subtract"
+    default: "normal"
+    description: |
+      Blending mode for the effects to use during render.
