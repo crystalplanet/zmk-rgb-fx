@@ -1,0 +1,41 @@
+# Copyright (c) 2024 Kuba Birecki
+# SPDX-License-Identifier: MIT
+
+description: |
+  Animated 'ripples' trigered by key presses.
+
+compatible: "zmk,rgb-fx-ripple"
+
+include: rgb-fx-base.yaml
+
+properties:
+  duration:
+    type: int
+    default: 1000
+    description: |
+      Approximate ripple travel time in milliseconds.
+
+  color:
+    type: int
+    required: true
+    description: |
+      Ripple color in HSL format.
+
+  buffer-size:
+    type: int
+    default: 10
+    description: |
+      This will limit how many keystroke events the effect is able to track
+      at the same time. Depending on how fast you type and the effect duration
+      you might need to increase this number.
+
+  ripple-width:
+    type: int
+    default: 25
+    description: |
+      This setting determines the thickness of the ripple 'ring'.
+      Think of it as antialiasing. The further apart the pixels are, or if they're
+      spaced irregularly, the larger this number should be. Otherwise the effect
+      will look uneven or LEDs might not light up at all.
+      This effect is especially pronounced when lowering the effect duration or running
+      low FPS.
