@@ -1,0 +1,43 @@
+# Copyright (c) 2024 Kuba Birecki
+# SPDX-License-Identifier: MIT
+
+description: |
+  Indicates the current typing speed in real-time by applying the specified
+  colors over the specified area, relative to the indicated and maximum WPM values.
+
+compatible: "zmk,rgb-fx-wpm"
+
+include: rgb-fx-base.yaml
+
+properties:
+  max-wpm:
+    type: int
+    default: 100
+    description: |
+      The maximum saturation (100%) words-per-minute value.
+
+  colors:
+    type: array
+    required: true
+    description: |
+      The colors to indicate the minimum and maximum typing speed in HSL format.
+      It's possible to specify a single color in case you want it to remain unchanged
+      regardless of the current WPM value.
+
+  bounds:
+    type: array
+    default: [0, 255]
+    description: |
+      Set the minimum and maximum coordinates for which the animation shoould apply
+      relative to the current WPM value.
+
+  bounds-axis:
+    type: string
+    enum:
+      - "horizontal"
+      - "vertical"
+    default: "horizontal"
+    description: |
+      The axis along which the bounds are applied.
+      If set to "horizontal", the bounds will be applied along the X axis.
+      If set to "vertical", the bounds will be applied along the Y axis.
