@@ -1,0 +1,41 @@
+# Copyright (c) 2024 Kuba Birecki
+# SPDX-License-Identifier: MIT
+
+description: |
+  Animates a linear gradient alternating between the given colors.
+
+compatible: "zmk,rgb-fx-linear-gradient"
+
+include: rgb-fx-base.yaml
+
+properties:
+  colors:
+    type: array
+    required: true
+    description: |
+      Gradient colors
+
+  angle:
+    type: int
+    default: 0
+    description: |
+      Gradient angle expressed in degrees. 0 degrees gives a horizontal gradient from left to right.
+
+  gradient-width:
+    type: int
+    default: 255
+    description: |
+      The total width of the entire gradient (all colors!).
+      This is relative to the pixel-coordinate system.
+
+  duration:
+    type: int
+    default: 0
+    description: |
+      Time it takes for the gradient to animate back to its original position.
+      Set to 0 for a static gradient.
+
+  use-rgb-interpolation:
+    type: boolean
+    description: |
+      Gradients use HSL interpolation by default. Set this setting to true to use RGB instead.
