@@ -104,6 +104,16 @@ void zmk_interpolate_hsl(const struct zmk_color_hsl *from, const struct zmk_colo
     result->l = from->l - (from->l - to->l) * step;
 }
 
+/**
+ * Interpolate between two colors using linear RGB interpolation
+ */
+void zmk_interpolate_rgb(const struct zmk_color_rgb *from, const struct zmk_color_rgb *to,
+                         struct zmk_color_rgb *result, float step) {
+    result->r = from->r + (to->r - from->r) * step;
+    result->g = from->g + (to->g - from->g) * step;
+    result->b = from->b + (to->b - from->b) * step;
+}
+
 struct zmk_color_rgb __zmk_apply_blending_mode(struct zmk_color_rgb base_value,
                                                struct zmk_color_rgb blend_value, uint8_t mode) {
     switch (mode) {

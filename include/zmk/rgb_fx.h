@@ -78,6 +78,18 @@ bool zmk_cmp_hsl(const struct zmk_color_hsl *a, const struct zmk_color_hsl *b);
 void zmk_interpolate_hsl(const struct zmk_color_hsl *from, const struct zmk_color_hsl *to,
                          struct zmk_color_hsl *result, float step);
 
+/**
+ * Perform linear interpolation between RGB values of two colors
+ * at a given distance (step) and store the resulting value in the given pointer.
+ *
+ * @param from   RGB color to interpolate
+ * @param to     RGB color to interpolate
+ * @param result Resulting RGB color
+ * @param step   Interpolation step
+ */
+void zmk_interpolate_rgb(const struct zmk_color_rgb *from, const struct zmk_color_rgb *to,
+                         struct zmk_color_rgb *result, float step);
+
 void zmk_rgb_fx_request_frames(uint32_t frames);
 
 struct zmk_color_rgb __zmk_apply_blending_mode(struct zmk_color_rgb base_value,
