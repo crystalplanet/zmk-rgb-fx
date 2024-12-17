@@ -1,0 +1,16 @@
+# Copyright (c) 2024 Kuba Birecki
+# SPDX-License-Identifier: MIT
+
+description: |
+  Assign a static color to each pixel
+
+compatible: "zmk,rgb-fx-static"
+
+include: rgb-fx-base.yaml
+
+properties:
+  colors:
+    type: array
+    required: true
+    description: |
+      The colors for each pixel in the zone in HSL format.

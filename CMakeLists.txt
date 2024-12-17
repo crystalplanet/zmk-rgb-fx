@@ -13,6 +13,7 @@ target_sources(app PRIVATE src/fx/linear_gradient.c)
 target_sources(app PRIVATE src/fx/ripple.c)
 target_sources(app PRIVATE src/fx/solid.c)
 target_sources(app PRIVATE src/fx/sparkle.c)
+target_sources(app PRIVATE src/fx/static.c)
 target_sources(app PRIVATE src/fx/wpm.c)
 
 endif()
