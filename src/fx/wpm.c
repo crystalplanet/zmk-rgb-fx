@@ -11,6 +11,7 @@
 #define WPM_CALC_SIGMA 15
 #define WPM_CALC_STROKES_PER_WORD 5
 
+#include <stdlib.h>
 #include <math.h>
 
 #include <zephyr/device.h>
@@ -33,6 +34,7 @@ struct fx_wpm_config {
     bool is_horizontal;
     uint8_t max_wpm;
     uint8_t blending_mode;
+    uint8_t edge_width;
 };
 
 /**
@@ -157,36 +159,53 @@ static void fx_wpm_render_frame(const struct device *dev, struct rgb_fx_pixel *p
                                 size_t num_pixels) {
     const struct fx_wpm_config *config = dev->config;
 
-    size_t *pixel_map = config->pixel_map;
+    const size_t *pixel_map = config->pixel_map;
 
     float timestamp_delta =
         ((float)(k_uptime_get() - current_wpm_timestamp)) / ((float)WPM_CALC_INTERVAL);
 
-    if (timestamp_delta > 1.0) {
-        timestamp_delta = 1.0;
+    if (timestamp_delta > 1) {
+        timestamp_delta = 1.0f;
     }
 
-    float wpm_delta = (float)last_wpm + (((float)current_wpm - (float)last_wpm) * timestamp_delta);
-    float step = wpm_delta / ((float)config->max_wpm);
+    const float wpm_delta = (float)last_wpm + (((float)current_wpm - (float)last_wpm) * timestamp_delta);
+    const float step = wpm_delta < config->max_wpm ? wpm_delta / ((float)config->max_wpm) : 1.0f;
 
-    if (step > 1.0) {
-        step = 1.0;
-    }
+    const struct zmk_color_rgb color = fx_wpm_get_frame_color(dev, step);
 
-    struct zmk_color_rgb color = fx_wpm_get_frame_color(dev, step);
+    const int direction = config->bounds_max > config->bounds_min ? 1 : -1;
+    const int gradient_edge =
+        config->bounds_min + (abs(config->bounds_max - config->bounds_min) + config->edge_width) *
+        step * direction;
 
     for (size_t i = 0; i < config->pixel_map_size; ++i) {
-        const uint8_t position = config->is_horizontal ? pixels[pixel_map[i]].position_x
+        const int position = config->is_horizontal ? pixels[pixel_map[i]].position_x
                                                        : pixels[pixel_map[i]].position_y;
-        const uint8_t upper_bound =
-            config->bounds_min + (config->bounds_max - config->bounds_min) * step;
+        struct zmk_color_rgb gradient_color;
 
-        if (position < config->bounds_min || upper_bound < position) {
+        if (direction * (position - gradient_edge) >= 0) {
+            gradient_color = (struct zmk_color_rgb){0.0f, 0.0f, 0.0f};
+
+            pixels[pixel_map[i]].value =
+                zmk_apply_blending_mode(pixels[pixel_map[i]].value, gradient_color, config->blending_mode);
+
             continue;
         }
 
+        if (direction * (gradient_edge - position) >= config->edge_width) {
+            pixels[pixel_map[i]].value =
+                zmk_apply_blending_mode(pixels[pixel_map[i]].value, color, config->blending_mode);
+
+            continue;
+        }
+
+        float gradient_step = abs(position - gradient_edge) / (float)config->edge_width;
+        gradient_color.r = color.r * gradient_step;
+        gradient_color.g = color.g * gradient_step;
+        gradient_color.b = color.b * gradient_step;
+
         pixels[pixel_map[i]].value =
-            zmk_apply_blending_mode(pixels[pixel_map[i]].value, color, config->blending_mode);
+            zmk_apply_blending_mode(pixels[pixel_map[i]].value, gradient_color, config->blending_mode);
     }
 
     if (last_wpm == 0 && current_wpm == 0) {
@@ -229,9 +248,10 @@ static const struct rgb_fx_api fx_wpm_api = {
         .is_horizontal = 0 == (DT_INST_ENUM_IDX(idx, bounds_axis)),                                \
         .max_wpm = DT_INST_PROP(idx, max_wpm),                                                     \
         .blending_mode = DT_INST_ENUM_IDX(idx, blending_mode),                                     \
+        .edge_width = DT_INST_PROP(idx, edge_gradient_width),                                      \
     };                                                                                             \
                                                                                                    \
-    DEVICE_DT_INST_DEFINE(idx, fx_wpm_init, NULL, NULL, &fx_wpm_##idx##_config,                    \
+    DEVICE_DT_INST_DEFINE(idx, &fx_wpm_init, NULL, NULL, &fx_wpm_##idx##_config,                   \
                           POST_KERNEL, CONFIG_APPLICATION_INIT_PRIORITY, &fx_wpm_api);
 
 DT_INST_FOREACH_STATUS_OKAY(FX_WPM_DEVICE);

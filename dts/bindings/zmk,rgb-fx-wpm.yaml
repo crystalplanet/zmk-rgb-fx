@@ -41,3 +41,11 @@ properties:
       The axis along which the bounds are applied.
       If set to "horizontal", the bounds will be applied along the X axis.
       If set to "vertical", the bounds will be applied along the Y axis.
+
+  edge-gradient-width:
+    type: int
+    default: 0
+    description: |
+      Turns the leading edge of the indicator into a fading gradient of the specified width.
+      Can be used to provide a smoother effect. Wpecially noticeable when the effect spans
+      a physically larger area.
