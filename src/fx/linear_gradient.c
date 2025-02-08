@@ -50,7 +50,7 @@ static void fx_linear_gradient_render_frame(const struct device *dev, struct rgb
         float x = pixels[pixel_map[i]].position_x * cos(config->angle) + pixels[pixel_map[i]].position_y * sin(config->angle);
         float distance = config->gradient_width + x - data->offset;
 
-        while (distance >= config->gradient_width) { 
+        while (distance >= config->gradient_width) {
             distance -= config->gradient_width;
         }
 
@@ -78,7 +78,7 @@ static void fx_linear_gradient_render_frame(const struct device *dev, struct rgb
 
     data->offset += config->offset_per_frame;
 
-    if (data->offset > config->gradient_width) {
+    if (data->offset >= config->gradient_width) {
         data->offset -= config->gradient_width;
     }
 

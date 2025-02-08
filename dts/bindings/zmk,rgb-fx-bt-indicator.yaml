@@ -1,0 +1,53 @@
+# Copyright (c) 2024 Kuba Birecki
+# SPDX-License-Identifier: MIT
+
+description: |
+  Animates a linear gradient alternating between the given colors.
+
+compatible: "zmk,rgb-fx-bt-indicator"
+
+include: rgb-fx-base.yaml
+
+properties:
+  profile-index:
+    type: int
+    required: true
+    description: |
+      The zero-based bluetooth profile index this indicator is responsible for.
+
+  color:
+    type: int
+    required: true
+    description: |
+      Main indicator color in HSL format. Indicated successful connection.
+      Will be used as the default for all other sates as well unless optional values are provided.
+
+  pairing-color:
+    type: int
+    required: false
+    description: |
+      Optional alternate color for when the bluetooth profile is in pairing mode.
+
+  connecting-color:
+    type: int
+    required: false
+    description: |
+      Optional alternate color for when the bluetooth profile is in a (re)connecting state.
+
+  backdrop-pixels:
+    type: array
+    required: false
+    description: |
+      Optional pixel mask to determine a backdrop for the effect.
+      Can be useful to improve the indicators visibility in particularly busy settings.
+
+  backdrop-color:
+    type: int
+    required: false
+    description: Backdrop color in HSL format.
+
+  no-blink:
+    type: boolean
+    description: |
+      Disables blinking for the indicator - in case you want to rely solely on colors
+      to highlight different states.

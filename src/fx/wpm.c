@@ -173,6 +173,10 @@ static void fx_wpm_render_frame(const struct device *dev, struct rgb_fx_pixel *p
 
     const struct zmk_color_rgb color = fx_wpm_get_frame_color(dev, step);
 
+    // rgb_fx_render_gauge(pixels, &config->gauge, color, step)
+    // zmk_rgb_fx_request_frames(1);
+    // DONE!
+
     const int direction = config->bounds_max > config->bounds_min ? 1 : -1;
     const int gradient_edge =
         config->bounds_min + (abs(config->bounds_max - config->bounds_min) + config->edge_width) *

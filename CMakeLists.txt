@@ -7,6 +7,7 @@ target_sources(app PRIVATE src/rgb_fx.c)
 
 target_sources(app PRIVATE src/behaviors/behavior_rgb_fx.c)
 
+target_sources(app PRIVATE src/fx/bt_indicator.c)
 target_sources(app PRIVATE src/fx/compose.c)
 target_sources(app PRIVATE src/fx/control_group.c)
 target_sources(app PRIVATE src/fx/linear_gradient.c)
